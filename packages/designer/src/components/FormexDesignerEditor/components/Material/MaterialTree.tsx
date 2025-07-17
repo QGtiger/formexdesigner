@@ -1,4 +1,4 @@
-import React from "react";
+import i18next from 'i18next';import React from "react";
 import { CaretDownOutlined, CloudOutlined } from "@ant-design/icons";
 import { Tree } from "antd";
 import type { TreeDataNode, TreeProps } from "antd";
@@ -6,20 +6,20 @@ import { useSchemaStore } from "@/stores/useSchemaStore";
 import { useMaterialMap } from "@/stores/useMaterialStore";
 
 function getTreeData(
-  items: FormexItem[],
-  materialMap: Record<string, MaterialItem>
-): TreeDataNode[] {
+items: FormexItem[],
+materialMap: Record<string, MaterialItem>)
+: TreeDataNode[] {
   return items.map((item) => {
     const { id, code, children } = item;
     const { icon, name } = materialMap[code] || {};
     const treeNode: TreeDataNode = {
-      title: (
-        <div className="flex gap-1.5">
+      title:
+      <div className="flex gap-1.5">
           {icon}
           <span>{name}</span>
-        </div>
-      ),
-      key: id,
+        </div>,
+
+      key: id
     };
 
     if (children && children.length > 0) {
@@ -32,22 +32,22 @@ function getTreeData(
 
 const MaterialTree: React.FC = () => {
   const { schema, selectedComponentId, setSelectedComponentId } =
-    useSchemaStore();
+  useSchemaStore();
   const { formItems } = schema;
   const materialMap = useMaterialMap();
 
   const customTreeData: TreeDataNode[] = [
-    {
-      title: (
-        <div className="flex gap-1.5">
+  {
+    title:
+    <div className="flex gap-1.5">
           <CloudOutlined />
-          <span>页面</span>
-        </div>
-      ),
-      key: "root",
-      children: getTreeData(formItems, materialMap),
-    },
-  ];
+          <span>{i18next.t("intl51")}</span>
+        </div>,
+
+    key: "root",
+    children: getTreeData(formItems, materialMap)
+  }];
+
 
   const onSelect: TreeProps["onSelect"] = (selectedKeys, info) => {
     const key = selectedKeys[0];
@@ -59,20 +59,20 @@ const MaterialTree: React.FC = () => {
     <Tree
       showLine
       switcherIcon={
-        <div
-          style={{
-            transform: "translateY(-2px)",
-          }}
-        >
+      <div
+        style={{
+          transform: "translateY(-2px)"
+        }}>
+
           <CaretDownOutlined />
         </div>
       }
       defaultExpandAll
       onSelect={onSelect}
       treeData={customTreeData}
-      selectedKeys={[selectedComponentId]}
-    />
-  );
+      selectedKeys={[selectedComponentId]} />);
+
+
 };
 
 export default MaterialTree;

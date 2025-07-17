@@ -1,4 +1,4 @@
-import { Button, Modal } from "antd";
+import i18next from 'i18next';import { Button, Modal } from "antd";
 import { Editor } from "@toast-ui/react-editor";
 
 import "@toast-ui/editor/toastui-editor.css";
@@ -21,15 +21,15 @@ import { FormexModel } from "@/stores/FormexModel";
 function RichEditor({
   value,
   onChange,
-  handleImageUpload,
-}: {
-  value?: string;
-  onChange?: (value: string) => void;
-  handleImageUpload?: (
-    file: File,
-    callback: (url: string, desc: string) => void
-  ) => void;
-}) {
+  handleImageUpload
+
+
+
+
+
+
+
+}: {value?: string;onChange?: (value: string) => void;handleImageUpload?: (file: File, callback: (url: string, desc: string) => void) => void;}) {
   const editorRef = useRef<Editor>(null);
 
   useEffect(() => {
@@ -54,14 +54,14 @@ function RichEditor({
       language="zh-CN"
       hooks={{
         // @ts-expect-error
-        addImageBlobHook: handleImageUpload, // handleImageUpload,
+        addImageBlobHook: handleImageUpload // handleImageUpload,
       }}
-      placeholder="请输入内容"
+      placeholder={i18next.t('intl57')}
       initialValue={value}
       plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
-      viewer
-    />
-  );
+      viewer />);
+
+
 }
 
 export default function RichEditorBtn(props: {
@@ -75,55 +75,55 @@ export default function RichEditorBtn(props: {
     let content = props.value || "";
     modal.confirm({
       icon: null,
-      title: "富文本编辑器",
+      title: i18next.t('intl58'),
       width: 1200,
       centered: true,
-      content: (
-        <div className="mt-4">
+      content:
+      <div className="mt-4">
           <RichEditor
-            {...props}
-            onChange={(s) => {
-              content = s;
-            }}
-            handleImageUpload={handleImageUpload}
-          />
-        </div>
-      ),
-      okText: "保存",
-      cancelText: "取消",
+          {...props}
+          onChange={(s) => {
+            content = s;
+          }}
+          handleImageUpload={handleImageUpload} />
+
+        </div>,
+
+      okText: i18next.t('intl59'),
+      cancelText: i18next.t('intl60'),
       onOk() {
         props.onChange?.(content);
       },
       onCancel() {
         return new Promise<void>((resolve, reject) => {
           if (props.value !== content) {
-            modal
-              .confirm({
-                title: "是否保存修改？",
-                content: "您有未保存的修改，是否保存？",
-                centered: true,
-                okText: "保存",
-                cancelText: "不保存",
-                onOk() {
-                  props.onChange?.(content);
-                },
-              })
-              .then(() => {
-                resolve();
-              }, reject);
+            modal.
+            confirm({
+              title: i18next.t('intl61'),
+              content: i18next.t('intl62'),
+              centered: true,
+              okText: i18next.t('intl59'),
+              cancelText: i18next.t('intl63'),
+              onOk() {
+                props.onChange?.(content);
+              }
+            }).
+            then(() => {
+              resolve();
+            }, reject);
           } else {
             resolve();
           }
         });
-      },
+      }
     });
   };
   return (
     <div>
-      <Button block onClick={showModal} icon={<EditOutlined />}>
-        编辑
+      <Button block onClick={showModal} icon={<EditOutlined />}>{i18next.t("intl64")}
+
       </Button>
       {modalHolder}
-    </div>
-  );
+    </div>);
+
 }

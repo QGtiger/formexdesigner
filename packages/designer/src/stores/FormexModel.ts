@@ -1,4 +1,4 @@
-import { createCustomModel } from "@/common/createModel";
+import i18next from 'i18next';import { createCustomModel } from "@/common/createModel";
 import { useBoolean } from "ahooks";
 import { Form } from "antd";
 
@@ -28,9 +28,9 @@ export const FormexModel = createCustomModel((props: FormexModelProps) => {
   };
 
   const handleImageUpload = async (
-    file: File,
-    callback: (urL: string, desc: string) => void
-  ) => {
+  file: File,
+  callback: (urL: string, desc: string) => void) =>
+  {
     try {
       if (!onFileUpload) {
         throw new Error("onFileUpload function is not provided");
@@ -40,8 +40,8 @@ export const FormexModel = createCustomModel((props: FormexModelProps) => {
       // 4. 插入编辑器
       callback(url, file.name || "image.png");
     } catch (error) {
-      console.error("上传失败:", error);
-      callback("", "上传失败");
+      console.error(i18next.t('intl37'), error);
+      callback("", i18next.t('intl38'));
     }
   };
 
@@ -51,6 +51,6 @@ export const FormexModel = createCustomModel((props: FormexModelProps) => {
     showSuccessPage,
     onReFill,
     onFormexFinish,
-    handleImageUpload,
+    handleImageUpload
   };
 });

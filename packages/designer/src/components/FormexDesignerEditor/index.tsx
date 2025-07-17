@@ -3,7 +3,7 @@ import EditArea from "./components/EditArea";
 import Setting from "./components/Setting";
 
 import Header from "./components/Header";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import {
@@ -12,7 +12,6 @@ import {
   StoreContext,
   createSchemaStore,
 } from "@/stores/useSchemaStore";
-import { ConfigProvider } from "antd";
 
 import zhCN from "antd/locale/zh_CN";
 import { FormexModel, FormexModelProps } from "@/stores/FormexModel";
@@ -48,36 +47,35 @@ export default function FormexDesignerEditor(
   // }, []);
 
   return (
-    <ConfigProvider locale={zhCN}>
-      <StoreContext.Provider value={storeRef.current}>
-        <FormexModel.Provider
-          value={{
-            ...props,
-            ...defaultObj,
-          }}
-        >
-          <DndProvider backend={HTML5Backend}>
-            <div
-              className="h-[100vh] w-[100%] flex flex-col"
-              style={{
-                height: height ? `${height}px` : "100vh",
-              }}
-            >
-              <Header title={title} rightContent={headerMenu} />
-              <PanelGroup direction="horizontal" autoSaveId="persistence">
-                <Panel defaultSize={30} minSize={15}>
-                  <Material />
-                </Panel>
-                <PanelResizeHandle className="w-[1px] bg-gray-300" />
-                <Panel minSize={36} className="bg-[#e5e8ec]">
-                  <EditArea />
-                </Panel>
-                <PanelResizeHandle className="w-[1px] bg-gray-300" />
-                <Panel defaultSize={30} minSize={20}>
-                  <Setting />
-                </Panel>
-              </PanelGroup>
-              {/* <Allotment
+    <StoreContext.Provider value={storeRef.current}>
+      <FormexModel.Provider
+        value={{
+          ...props,
+          ...defaultObj,
+        }}
+      >
+        <DndProvider backend={HTML5Backend}>
+          <div
+            className="h-[100vh] w-[100%] flex flex-col"
+            style={{
+              height: height ? `${height}px` : "100vh",
+            }}
+          >
+            <Header title={title} rightContent={headerMenu} />
+            <PanelGroup direction="horizontal" autoSaveId="persistence">
+              <Panel defaultSize={30} minSize={15}>
+                <Material />
+              </Panel>
+              <PanelResizeHandle className="w-[1px] bg-gray-300" />
+              <Panel minSize={36} className="bg-[#e5e8ec]">
+                <EditArea />
+              </Panel>
+              <PanelResizeHandle className="w-[1px] bg-gray-300" />
+              <Panel defaultSize={30} minSize={20}>
+                <Setting />
+              </Panel>
+            </PanelGroup>
+            {/* <Allotment
                 defaultSizes={[100]}
                 id="allotment-container"
                 className="opacity-0"
@@ -100,14 +98,13 @@ export default function FormexDesignerEditor(
                   <Setting />
                 </Allotment.Pane>
               </Allotment> */}
-            </div>
+          </div>
 
-            {/* <div className=" relative">
+          {/* <div className=" relative">
               <DragLayer />
             </div> */}
-          </DndProvider>
-        </FormexModel.Provider>
-      </StoreContext.Provider>
-    </ConfigProvider>
+        </DndProvider>
+      </FormexModel.Provider>
+    </StoreContext.Provider>
   );
 }

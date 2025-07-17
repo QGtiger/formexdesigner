@@ -1,9 +1,7 @@
 import { FormexModel, FormexModelProps } from "@/stores/FormexModel";
 import { useMaterialMap } from "@/stores/useMaterialStore";
-import { ConfigProvider } from "antd";
 import classNames from "classnames";
 import React, { useRef } from "react";
-import zhCN from "antd/locale/zh_CN";
 import { defaultSchema } from "@/stores/useSchemaStore";
 
 export default function PreviewFormex(
@@ -41,14 +39,12 @@ export default function PreviewFormex(
   // md:bg-gradient-to-b md:from-indigo-200 md:via-cyan-50 md:to-white
 
   return (
-    <ConfigProvider locale={zhCN}>
-      <FormexModel.Provider value={props}>
-        <div className="edit-area relative w-full min-h-full bg-white   rounded-xl">
-          <div className={classNames("")} ref={formexDomRef}>
-            {renderComponents(formItems)}
-          </div>
+    <FormexModel.Provider value={props}>
+      <div className="edit-area relative w-full min-h-full bg-white   rounded-xl">
+        <div className={classNames("")} ref={formexDomRef}>
+          {renderComponents(formItems)}
         </div>
-      </FormexModel.Provider>
-    </ConfigProvider>
+      </div>
+    </FormexModel.Provider>
   );
 }

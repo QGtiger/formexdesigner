@@ -1,4 +1,4 @@
-import { useMaterialMap } from "@/stores/useMaterialStore";
+import i18next from 'i18next';import { useMaterialMap } from "@/stores/useMaterialStore";
 import classNames from "classnames";
 import React, { MouseEventHandler, useEffect, useRef, useState } from "react";
 import HoverMask from "./HoverMask";
@@ -17,7 +17,7 @@ export default function PreviewDevFormex() {
     setSelectedComponentId,
     getMaterialItemByComponentId,
     getFormexItemIndexByComponentId,
-    deleteFormexItemByComponentId,
+    deleteFormexItemByComponentId
   } = useSchemaStore();
   const { schema } = useSchemaStore();
   const materialMap = useMaterialMap();
@@ -70,7 +70,7 @@ export default function PreviewDevFormex() {
   }, [selectedIndex]);
 
   const selectedComponentMaterialItem =
-    getMaterialItemByComponentId(selectedComponentId, materialMap)! || {};
+  getMaterialItemByComponentId(selectedComponentId, materialMap)! || {};
 
   // useKeyPress(["delete", "backspace"], (event) => {
   //   if (selectedComponentId) {
@@ -98,7 +98,7 @@ export default function PreviewDevFormex() {
           id,
           code,
           ...martialItem.defaultProps,
-          ...props,
+          ...props
         },
         renderComponents(it.children)
       );
@@ -111,72 +111,72 @@ export default function PreviewDevFormex() {
     <div
       onClick={handleClick}
       className={`${EditAreaCls} relative w-full min-h-full bg-white   rounded-xl`}
-      ref={formexDomRef}
-    >
+      ref={formexDomRef}>
+
       <div className={classNames("")}>{renderComponents(formItems)}</div>
       {/* 显示 hoverMask */}
-      {hoverComponentId && (
-        <HoverMask
-          componentId={hoverComponentId}
-          containerClassName={EditAreaCls}
-          portalClassName="hover-mask"
-        />
-      )}
+      {hoverComponentId &&
+      <HoverMask
+        componentId={hoverComponentId}
+        containerClassName={EditAreaCls}
+        portalClassName="hover-mask" />
+
+      }
       <div className="hover-mask"></div>
 
       {/* 显示 over 示意线 */}
-      {overComponentId && (
-        <HoverMask
-          componentId={overComponentId}
-          containerClassName={EditAreaCls}
-          portalClassName="over-line"
-          renderMask={(props) => {
-            return (
-              <div
-                className=" absolute h-[2px] bg-blue-500"
-                style={{
-                  left: props.left,
-                  top:
-                    props.top +
-                    (overPlacement === "top" ? 0 : props.height + 2),
-                  width: props.width,
-                }}
-              ></div>
-            );
-          }}
-        />
-      )}
+      {overComponentId &&
+      <HoverMask
+        componentId={overComponentId}
+        containerClassName={EditAreaCls}
+        portalClassName="over-line"
+        renderMask={(props) => {
+          return (
+            <div
+              className=" absolute h-[2px] bg-blue-500"
+              style={{
+                left: props.left,
+                top:
+                props.top + (
+                overPlacement === "top" ? 0 : props.height + 2),
+                width: props.width
+              }}>
+            </div>);
+
+        }} />
+
+      }
       <div className="over-line"></div>
 
       {/* 显示选择 mask */}
-      {selectedComponentId && (
-        <HoverMask
-          key={selectedIndex}
-          componentId={selectedComponentId}
-          containerClassName={EditAreaCls}
-          portalClassName="selected-mask"
-          renderMask={(props) => {
-            const { icon, name, hidden } = selectedComponentMaterialItem;
-            return (
-              <div
-                style={{
-                  position: "absolute",
-                  left: props.left - 2,
-                  top: props.top - 2,
-                  border: "2px solid blue",
-                  width: props.width + 4,
-                  height: props.height + 4,
-                  zIndex: 12,
-                  borderRadius: 2,
-                  boxSizing: "border-box",
-                  pointerEvents: "none",
-                }}
-              >
+      {selectedComponentId &&
+      <HoverMask
+        key={selectedIndex}
+        componentId={selectedComponentId}
+        containerClassName={EditAreaCls}
+        portalClassName="selected-mask"
+        renderMask={(props) => {
+          const { icon, name, hidden } = selectedComponentMaterialItem;
+          return (
+            <div
+              style={{
+                position: "absolute",
+                left: props.left - 2,
+                top: props.top - 2,
+                border: "2px solid blue",
+                width: props.width + 4,
+                height: props.height + 4,
+                zIndex: 12,
+                borderRadius: 2,
+                boxSizing: "border-box",
+                pointerEvents: "none"
+              }}>
+
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className=" pointer-events-auto"
-                >
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className=" pointer-events-auto">
+
                   <div className="absolute px-2 h-[25px] bg-blue-600 text-white font-sans text-xs top-[-30px] rounded-sm overflow-hidden flex items-center justify-center">
                     <div className="flex gap-2 items-center">
                       <div className="flex gap-1">
@@ -184,31 +184,31 @@ export default function PreviewDevFormex() {
                         <div>{name}</div>
                       </div>
 
-                      {!hidden && (
-                        <>
+                      {!hidden &&
+                    <>
                           <div className="divider h-[12px] w-[1px] bg-white scale-x-50"></div>
-                          <Tooltip title="删除">
+                          <Tooltip title={i18next.t('intl54')}>
                             <DeleteOutlined
-                              className="cursor-pointer"
-                              onClick={() => {
-                                deleteFormexItemByComponentId(
-                                  selectedComponentId
-                                );
-                                setSelectedComponentId("");
-                              }}
-                            />
+                          className="cursor-pointer"
+                          onClick={() => {
+                            deleteFormexItemByComponentId(
+                              selectedComponentId
+                            );
+                            setSelectedComponentId("");
+                          }} />
+
                           </Tooltip>
                         </>
-                      )}
+                    }
                     </div>
                   </div>
                 </motion.div>
-              </div>
-            );
-          }}
-        />
-      )}
+              </div>);
+
+        }} />
+
+      }
       <div className="selected-mask"></div>
-    </div>
-  );
+    </div>);
+
 }

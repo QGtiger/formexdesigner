@@ -1,4 +1,4 @@
-import { AppstoreOutlined, BarsOutlined } from "@ant-design/icons";
+import i18next from 'i18next';import { AppstoreOutlined, BarsOutlined } from "@ant-design/icons";
 import { Segmented } from "antd";
 import { useState } from "react";
 import MaterialList from "./MaterialList";
@@ -12,26 +12,26 @@ export default function Material() {
       <Segmented
         value={activeKey}
         options={[
-          { label: "组件", value: "list", icon: <BarsOutlined /> },
-          { label: "大纲树", value: "tree", icon: <AppstoreOutlined /> },
-        ]}
+        { label: i18next.t('intl1'), value: "list", icon: <BarsOutlined /> },
+        { label: i18next.t('intl2'), value: "tree", icon: <AppstoreOutlined /> }]
+        }
         onChange={setActionKey}
-        block
-      />
+        block />
+
       <div
         className={classNames({
-          hidden: activeKey === "tree",
-        })}
-      >
+          hidden: activeKey === "tree"
+        })}>
+
         <MaterialList />
       </div>
       <div
         className={classNames({
-          hidden: activeKey !== "tree",
-        })}
-      >
+          hidden: activeKey !== "tree"
+        })}>
+
         <MaterialTree />
       </div>
-    </div>
-  );
+    </div>);
+
 }

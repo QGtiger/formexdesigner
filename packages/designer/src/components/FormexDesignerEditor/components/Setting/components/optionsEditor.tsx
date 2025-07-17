@@ -1,17 +1,17 @@
-import {
+import i18next from 'i18next';import {
   DndContext,
   closestCenter,
   KeyboardSensor,
   PointerSensor,
   useSensor,
-  useSensors,
-} from "@dnd-kit/core";
+  useSensors } from
+"@dnd-kit/core";
 import {
   arrayMove,
   SortableContext,
   useSortable,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
+  verticalListSortingStrategy } from
+"@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import { createRef, useEffect, useState } from "react";
@@ -33,19 +33,19 @@ function generateId() {
 const SortableItem = ({
   id,
   value,
-  suffix,
-}: {
-  id: string;
-  value: Option;
-  suffix?: React.ReactNode;
-}) => {
+  suffix
+
+
+
+
+}: {id: string;value: Option;suffix?: React.ReactNode;}) => {
   const {
     attributes,
     listeners,
     setNodeRef,
     transform,
     transition,
-    isDragging,
+    isDragging
   } = useSortable({ id });
 
   const style: React.CSSProperties = {
@@ -56,15 +56,15 @@ const SortableItem = ({
     position: "relative",
     zIndex: isDragging ? 999 : "auto",
     left: 0,
-    right: 0,
+    right: 0
   };
 
   return (
     <div
       style={style}
       {...attributes}
-      className="flex bg-gray-100 gap-1 items-center group cursor-pointer py-1 hover:bg-gray-200 rounded-sm my-1 justify-between"
-    >
+      className="flex bg-gray-100 gap-1 items-center group cursor-pointer py-1 hover:bg-gray-200 rounded-sm my-1 justify-between">
+
       <div className="flex gap-1 items-center">
         <div className="icon" ref={setNodeRef} {...listeners}>
           <svg
@@ -76,14 +76,14 @@ const SortableItem = ({
               isDragging ? "opacity-100" : "opacity-0"
             )}
             color="currentColor"
-            viewBox="0 0 16 16"
-          >
+            viewBox="0 0 16 16">
+
             <path
               fill="currentColor"
               fillRule="evenodd"
               d="M10 10.75a.25.25 0 0 1 .25.25v1a.25.25 0 0 1-.25.25H9a.25.25 0 0 1-.25-.25v-1a.25.25 0 0 1 .25-.25zm-3 0a.25.25 0 0 1 .25.25v1a.25.25 0 0 1-.25.25H6a.25.25 0 0 1-.25-.25v-1a.25.25 0 0 1 .25-.25zm2-3.5h1a.25.25 0 0 1 .25.25v1a.25.25 0 0 1-.25.25H9a.25.25 0 0 1-.25-.25v-1A.25.25 0 0 1 9 7.25m-3 0h1a.25.25 0 0 1 .25.25v1a.25.25 0 0 1-.25.25H6a.25.25 0 0 1-.25-.25v-1A.25.25 0 0 1 6 7.25m4-3.5a.25.25 0 0 1 .25.25v1a.25.25 0 0 1-.25.25H9A.25.25 0 0 1 8.75 5V4A.25.25 0 0 1 9 3.75zm-3 0a.25.25 0 0 1 .25.25v1a.25.25 0 0 1-.25.25H6A.25.25 0 0 1 5.75 5V4A.25.25 0 0 1 6 3.75z"
-              clipRule="evenodd"
-            ></path>
+              clipRule="evenodd">
+            </path>
           </svg>
         </div>
         <div>{value.label}</div>
@@ -91,18 +91,18 @@ const SortableItem = ({
       <div className="mr-2 text-gray-500 opacity-0 group-hover:opacity-100">
         {suffix}
       </div>
-    </div>
-  );
+    </div>);
+
 };
 
 // 排序列表容器
 const SortableList = ({
   items,
-  onItemsChange,
-}: {
-  items: Option[];
-  onItemsChange?: (items: Option[]) => void;
-}) => {
+  onItemsChange
+
+
+
+}: {items: Option[];onItemsChange?: (items: Option[]) => void;}) => {
   const [modal, modalHolder] = Modal.useModal();
   const [listItems, setListItems] = useState(
     items.map((item) => ({ id: `item-${generateId()}`, value: item }))
@@ -128,9 +128,9 @@ const SortableList = ({
     const newItem = {
       id: `item-${generateId()}`,
       value: {
-        value: `选项${listItems.length + 1}`,
-        label: `选项${listItems.length + 1}`,
-      },
+        value: i18next.t("intl71", { arg0: listItems.length + 1 }),
+        label: i18next.t("intl72", { arg0: listItems.length + 1 })
+      }
     };
     setListItems((items) => [...items, newItem]);
   };
@@ -143,46 +143,46 @@ const SortableList = ({
     const formRef = createRef<FormInstance>();
     modal.confirm({
       icon: null,
-      title: "编辑选项",
+      title: i18next.t('intl73'),
       centered: true,
-      content: (
-        <Form ref={formRef} colon={false} layout="vertical">
+      content:
+      <Form ref={formRef} colon={false} layout="vertical">
           <Form.Item
-            label="选项名称"
-            name="label"
-            initialValue={value.label}
-            rules={[{ required: true, message: "请输入选项名称" }]}
-          >
+          label={i18next.t('intl74')}
+          name="label"
+          initialValue={value.label}
+          rules={[{ required: true, message: i18next.t('intl75') }]}>
+
             <Input />
           </Form.Item>
           <Form.Item
-            label="选项值"
-            name="value"
-            initialValue={value.value}
-            rules={[{ required: true, message: "请输入选项值" }]}
-          >
+          label={i18next.t('intl76')}
+          name="value"
+          initialValue={value.value}
+          rules={[{ required: true, message: i18next.t('intl77') }]}>
+
             <Input />
           </Form.Item>
-        </Form>
-      ),
-      okText: "保存",
-      cancelText: "取消",
+        </Form>,
+
+      okText: i18next.t('intl59'),
+      cancelText: i18next.t('intl60'),
       async onOk() {
         const values = await formRef.current?.validateFields();
         if (values) {
           setListItems((items) =>
-            items.map((item) => {
-              if (item.id === id) {
-                return {
-                  ...item,
-                  value: { ...item.value, ...values },
-                };
-              }
-              return item;
-            })
+          items.map((item) => {
+            if (item.id === id) {
+              return {
+                ...item,
+                value: { ...item.value, ...values }
+              };
+            }
+            return item;
+          })
           );
         }
-      },
+      }
     });
   };
 
@@ -197,64 +197,64 @@ const SortableList = ({
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
         // 强制只能在垂直方向拖拽
-        modifiers={[restrictToVerticalAxis]}
-      >
+        modifiers={[restrictToVerticalAxis]}>
+
         <SortableContext
           items={listItems}
-          strategy={verticalListSortingStrategy}
-        >
+          strategy={verticalListSortingStrategy}>
+
           <div className=" rounded-md border border-gray-300 border-solid px-1">
-            {listItems.length ? (
-              listItems.map((item) => (
-                <div
-                  key={item.id}
-                  className=""
-                  onClick={() => editItem(item.id, item.value)}
-                >
+            {listItems.length ?
+            listItems.map((item) =>
+            <div
+              key={item.id}
+              className=""
+              onClick={() => editItem(item.id, item.value)}>
+
                   <SortableItem
-                    key={item.id}
-                    id={item.id}
-                    value={item.value}
-                    suffix={
-                      <DeleteOutlined
-                        onClickCapture={(e) => {
-                          e.stopPropagation();
-                          removeItem(item.id);
-                        }}
-                      />
-                    }
-                  />
+                key={item.id}
+                id={item.id}
+                value={item.value}
+                suffix={
+                <DeleteOutlined
+                  onClickCapture={(e) => {
+                    e.stopPropagation();
+                    removeItem(item.id);
+                  }} />
+
+                } />
+
                 </div>
-              ))
-            ) : (
-              <div
-                className="text-gray-400 text-sm p-2 cursor-pointer "
-                onClick={addItem}
-              >
-                暂无选项, 请添加
-              </div>
-            )}
+            ) :
+
+            <div
+              className="text-gray-400 text-sm p-2 cursor-pointer "
+              onClick={addItem}>{i18next.t("intl78")}
+
+
+            </div>
+            }
           </div>
         </SortableContext>
       </DndContext>
       <div
         className=" absolute -top-[26px] right-1 text-gray-500 cursor-pointer hover:text-gray-700 transition-colors duration-200"
-        onClick={addItem}
-      >
+        onClick={addItem}>
+
         <PlusOutlined />
       </div>
       {modalHolder}
-    </div>
-  );
+    </div>);
+
 };
 
 export default function OptionsEditor({
   value = [],
-  onChange = () => {},
-}: {
-  value?: Option[];
-  onChange?: (value: Option[]) => void;
-}) {
+  onChange = () => {}
+
+
+
+}: {value?: Option[];onChange?: (value: Option[]) => void;}) {
   // 添加APP 组件树 修改。 Setting => onKeyDownCapture 可以被捕获
   return <SortableList items={value} onItemsChange={onChange} />;
 }

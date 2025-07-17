@@ -1,17 +1,16 @@
-export const defaultInputSetter: Setter[] = [
-  {
-    type: "input",
-    name: "name",
-    label: "标题文案",
-  },
-  {
-    type: "input",
-    name: "placeholder",
-    label: "占位文案",
-  },
-  {
-    type: "switch",
-    name: "required",
-    label: "是否必填",
-  },
-];
+import i18next from 'i18next';export const defaultInputSetter: Setter[] = [
+{
+  type: "input",
+  name: "name",
+  label: i18next.t('intl12')
+},
+{
+  type: "input",
+  name: "placeholder",
+  label: i18next.t('intl39')
+},
+{
+  type: "switch",
+  name: "required",
+  label: i18next.t('intl40')
+}];

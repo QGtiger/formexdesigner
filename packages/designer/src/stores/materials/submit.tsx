@@ -1,4 +1,4 @@
-import { Button, ConfigProvider } from "antd";
+import { Button } from "antd";
 import { FormexModel } from "../FormexModel";
 
 export default function Submit(

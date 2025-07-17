@@ -1,4 +1,4 @@
-import type { UploadProps } from "antd";
+import i18next from 'i18next';import type { UploadProps } from "antd";
 import { Typography, Upload } from "antd";
 import { useEffect, useState } from "react";
 import { FormexModel } from "../FormexModel";
@@ -28,28 +28,28 @@ export default function DraggerUpload(props: {
     beforeUpload(file) {
       // 单个最多五个，最大20M
       if (file.size > 20 * 1024 * 1024) {
-        showErrorMessage?.("单个文件不能超过20M");
+        showErrorMessage?.(i18next.t('intl46'));
         return false;
       }
       setFileList((prev) => {
         return [
-          ...prev,
-          {
-            uid: file.uid,
-            name: file.name,
-            url: "",
-            type: file.type,
-            size: file.size,
-            status: "uploading",
-          },
-        ];
+        ...prev,
+        {
+          uid: file.uid,
+          name: file.name,
+          url: "",
+          type: file.type,
+          size: file.size,
+          status: "uploading"
+        }];
+
       });
 
       handleImageUpload(file, (url) => {
         if (url) {
-          console.log(`文件 ${file.name} 上传成功`);
+          console.log(i18next.t("intl47", { arg0: file.name }));
         } else {
-          console.error(`文件 ${file.name} 上传失败`);
+          console.error(i18next.t("intl48", { arg0: file.name }));
         }
         setFileList((prev) => {
           return prev.map((item) => {
@@ -57,7 +57,7 @@ export default function DraggerUpload(props: {
               return {
                 ...item,
                 status: url ? "done" : "error",
-                url: url || "",
+                url: url || ""
               };
             }
             return item;
@@ -75,7 +75,7 @@ export default function DraggerUpload(props: {
           return acc;
         }, [] as CustomUploadFile[]);
       });
-    },
+    }
   };
 
   useEffect(() => {
@@ -85,13 +85,13 @@ export default function DraggerUpload(props: {
   return (
     <Dragger {...uploadProps} fileList={fileList}>
       <div className=" py-2">
-        <Typography.Text>请点击或拖拽文件到此区域上传</Typography.Text>
+        <Typography.Text>{i18next.t("intl49")}</Typography.Text>
       </div>
       <div>
-        <Typography.Text type="secondary">
-          支持单个或批量上传，单个文件最大20M
+        <Typography.Text type="secondary">{i18next.t("intl50")}
+
         </Typography.Text>
       </div>
-    </Dragger>
-  );
+    </Dragger>);
+
 }
