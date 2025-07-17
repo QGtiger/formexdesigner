@@ -1,4 +1,5 @@
-import i18next from 'i18next';import { Button, Modal } from "antd";
+import i18next from "i18next";
+import { Button, Modal } from "antd";
 import { Editor } from "@toast-ui/react-editor";
 
 import "@toast-ui/editor/toastui-editor.css";
@@ -17,19 +18,20 @@ import "prismjs/components/prism-clojure.js";
 import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
 import { EditOutlined } from "@ant-design/icons";
 import { FormexModel } from "@/stores/FormexModel";
+import { getCurrentLanguage } from "@xybot/i18n";
 
 function RichEditor({
   value,
   onChange,
-  handleImageUpload
-
-
-
-
-
-
-
-}: {value?: string;onChange?: (value: string) => void;handleImageUpload?: (file: File, callback: (url: string, desc: string) => void) => void;}) {
+  handleImageUpload,
+}: {
+  value?: string;
+  onChange?: (value: string) => void;
+  handleImageUpload?: (
+    file: File,
+    callback: (url: string, desc: string) => void
+  ) => void;
+}) {
   const editorRef = useRef<Editor>(null);
 
   useEffect(() => {
@@ -51,17 +53,17 @@ function RichEditor({
       ref={editorRef}
       previewStyle="vertical"
       height={`${window.innerHeight - 300}px`}
-      language="zh-CN"
+      language={getCurrentLanguage()}
       hooks={{
         // @ts-expect-error
-        addImageBlobHook: handleImageUpload // handleImageUpload,
+        addImageBlobHook: handleImageUpload, // handleImageUpload,
       }}
-      placeholder={i18next.t('intl57')}
+      placeholder={i18next.t("intl57")}
       initialValue={value}
       plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
-      viewer />);
-
-
+      viewer
+    />
+  );
 }
 
 export default function RichEditorBtn(props: {
@@ -75,55 +77,56 @@ export default function RichEditorBtn(props: {
     let content = props.value || "";
     modal.confirm({
       icon: null,
-      title: i18next.t('intl58'),
+      title: i18next.t("intl58"),
       width: 1200,
       centered: true,
-      content:
-      <div className="mt-4">
+      content: (
+        <div className="mt-4">
           <RichEditor
-          {...props}
-          onChange={(s) => {
-            content = s;
-          }}
-          handleImageUpload={handleImageUpload} />
+            {...props}
+            onChange={(s) => {
+              content = s;
+            }}
+            handleImageUpload={handleImageUpload}
+          />
+        </div>
+      ),
 
-        </div>,
-
-      okText: i18next.t('intl59'),
-      cancelText: i18next.t('intl60'),
+      okText: i18next.t("intl59"),
+      cancelText: i18next.t("intl60"),
       onOk() {
         props.onChange?.(content);
       },
       onCancel() {
         return new Promise<void>((resolve, reject) => {
           if (props.value !== content) {
-            modal.
-            confirm({
-              title: i18next.t('intl61'),
-              content: i18next.t('intl62'),
-              centered: true,
-              okText: i18next.t('intl59'),
-              cancelText: i18next.t('intl63'),
-              onOk() {
-                props.onChange?.(content);
-              }
-            }).
-            then(() => {
-              resolve();
-            }, reject);
+            modal
+              .confirm({
+                title: i18next.t("intl61"),
+                content: i18next.t("intl62"),
+                centered: true,
+                okText: i18next.t("intl59"),
+                cancelText: i18next.t("intl63"),
+                onOk() {
+                  props.onChange?.(content);
+                },
+              })
+              .then(() => {
+                resolve();
+              }, reject);
           } else {
             resolve();
           }
         });
-      }
+      },
     });
   };
   return (
     <div>
-      <Button block onClick={showModal} icon={<EditOutlined />}>{i18next.t("intl64")}
-
+      <Button block onClick={showModal} icon={<EditOutlined />}>
+        {i18next.t("intl64")}
       </Button>
       {modalHolder}
-    </div>);
-
+    </div>
+  );
 }
