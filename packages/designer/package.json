@@ -1,6 +1,6 @@
 {
   "name": "@formex/designer",
-  "version": "1.0.15-beta.14",
+  "version": "1.0.15-beta.16",
   "description": "A form designer by Formex",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -24,7 +24,8 @@
     "dist/*"
   ],
   "scripts": {
-    "build": "tsup && tailwindcss -i ./src/index.css -o ./dist/index.css && tailwindcss -i ./src/nobase_index.css -o ./dist/nobase_index.css && cp ./src/type.d.ts dist/"
+    "build": "tsup && tailwindcss -i ./src/index.css -o ./dist/index.css && tailwindcss -i ./src/nobase_index.css -o ./dist/nobase_index.css && cp ./src/type.d.ts dist/",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [],
   "author": "",

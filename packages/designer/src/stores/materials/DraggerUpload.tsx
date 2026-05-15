@@ -1,6 +1,7 @@
-import i18next from 'i18next';import type { UploadProps } from "antd";
+import i18next from "i18next";
+import type { UploadProps } from "antd";
 import { Typography, Upload } from "antd";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FormexModel } from "../FormexModel";
 
 const { Dragger } = Upload;
@@ -20,6 +21,7 @@ export default function DraggerUpload(props: {
 }) {
   const { onChange, value } = props;
   const [fileList, setFileList] = useState<CustomUploadFile[]>(value || []);
+  const isFirstRender = useRef(true);
   const { showErrorMessage, handleImageUpload } = FormexModel.useModel();
 
   const uploadProps: UploadProps = {
@@ -28,21 +30,21 @@ export default function DraggerUpload(props: {
     beforeUpload(file) {
       // 单个最多五个，最大20M
       if (file.size > 20 * 1024 * 1024) {
-        showErrorMessage?.(i18next.t('intl46'));
+        showErrorMessage?.(i18next.t("intl46"));
         return false;
       }
       setFileList((prev) => {
         return [
-        ...prev,
-        {
-          uid: file.uid,
-          name: file.name,
-          url: "",
-          type: file.type,
-          size: file.size,
-          status: "uploading"
-        }];
-
+          ...prev,
+          {
+            uid: file.uid,
+            name: file.name,
+            url: "",
+            type: file.type,
+            size: file.size,
+            status: "uploading",
+          },
+        ];
       });
 
       handleImageUpload(file, (url) => {
@@ -57,7 +59,7 @@ export default function DraggerUpload(props: {
               return {
                 ...item,
                 status: url ? "done" : "error",
-                url: url || ""
+                url: url || "",
               };
             }
             return item;
@@ -75,10 +77,14 @@ export default function DraggerUpload(props: {
           return acc;
         }, [] as CustomUploadFile[]);
       });
-    }
+    },
   };
 
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     onChange?.(fileList);
   }, [fileList]);
 
@@ -88,10 +94,10 @@ export default function DraggerUpload(props: {
         <Typography.Text>{i18next.t("intl49")}</Typography.Text>
       </div>
       <div>
-        <Typography.Text type="secondary">{i18next.t("intl50")}
-
+        <Typography.Text type="secondary">
+          {i18next.t("intl50")}
         </Typography.Text>
       </div>
-    </Dragger>);
-
+    </Dragger>
+  );
 }

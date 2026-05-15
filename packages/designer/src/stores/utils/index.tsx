@@ -1,47 +1,53 @@
-import i18next from 'i18next';import { Form, Typography } from "antd";
+import i18next from "i18next";
+import { Form, Typography } from "antd";
 import MaterialWrapper from "./MaterialWrapper";
 import { useEffect } from "react";
 
 export function MaterialWrapperHoc(
-Component: React.FC<MaterialItemProps>)
-: React.FC<MaterialItemProps> {
+  Component: React.FC<MaterialItemProps>,
+): React.FC<MaterialItemProps> {
   return function WrappedComponent(props: MaterialItemProps) {
     return (
       <MaterialWrapper {...props}>
         <Component {...props} />
-      </MaterialWrapper>);
-
+      </MaterialWrapper>
+    );
   };
 }
 
 export function FormItemHoc(
-Component: React.FC<MaterialItemProps>)
-: React.FC<MaterialItemProps> {
+  Component: React.FC<MaterialItemProps>,
+): React.FC<MaterialItemProps> {
   return function FormItemWrappedComponent(props: MaterialItemProps) {
     return (
       <Form.Item
         name={props.id}
         required={props.required}
         rules={[
-        {
-          validator: async (_, value) => {
-            if (props.required && !value) {
-              return Promise.reject(new Error(i18next.t("intl35", { arg0: props.name || "" })));
-            }
-            return Promise.resolve();
-          }
-        }]
-        }>
-
+          {
+            validator: async (_, value) => {
+              if (
+                props.required &&
+                (!value || (Array.isArray(value) && !value.length))
+              ) {
+                return Promise.reject(
+                  new Error(i18next.t("intl35", { arg0: props.name || "" })),
+                );
+              }
+              return Promise.resolve();
+            },
+          },
+        ]}
+      >
         {<Component {...props} />}
-      </Form.Item>);
-
+      </Form.Item>
+    );
   };
 }
 
 export function FormItemLabelHoc(
-Component: React.FC<MaterialItemProps>)
-: React.FC<
+  Component: React.FC<MaterialItemProps>,
+): React.FC<
   MaterialItemProps<{
     name: string;
 
@@ -49,8 +55,8 @@ Component: React.FC<MaterialItemProps>)
     defaultValue?: any;
     onChange?: (value: any) => void;
     required?: boolean;
-  }>>
-{
+  }>
+> {
   return function FormItemWrappedComponent(props) {
     const { defaultValue, ...otherProps } = props;
     // 组件的默认值
@@ -59,16 +65,16 @@ Component: React.FC<MaterialItemProps>)
     }, [defaultValue]);
     return (
       <div className="flex flex-col gap-2">
-        {props.name &&
-        <div className="label font-semibold">
+        {props.name && (
+          <div className="label font-semibold">
             <Typography.Text>
               {props.name}
-              {props.required ? i18next.t('intl36') : ""}
+              {props.required ? i18next.t("intl36") : ""}
             </Typography.Text>
           </div>
-        }
+        )}
         <Component {...otherProps} />
-      </div>);
-
+      </div>
+    );
   };
 }

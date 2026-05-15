@@ -46,7 +46,7 @@ export const useMaterialStore = create<MaterialState>(() => {
   const MaterialInputNumber = FormItemHoc(
     FormItemLabelHoc((props: any) => {
       return <InputNumber {...props} style={{ width: "100%" }} />;
-    })
+    }),
   );
   const MaterialSelect = FormItemHoc(FormItemLabelHoc(CustomSelect));
   const MaterialMultiSelect = FormItemHoc(FormItemLabelHoc(MutliSelect));
@@ -257,6 +257,11 @@ export const useMaterialStore = create<MaterialState>(() => {
           name: "name",
           label: i18next.t("intl12"),
         },
+        {
+          type: "switch",
+          name: "required",
+          label: i18next.t("intl40"),
+        },
       ],
     },
     {
@@ -280,10 +285,13 @@ export const useMaterialStore = create<MaterialState>(() => {
     },
   ];
 
-  const materialMap = materialList.reduce((acc, curr) => {
-    acc[curr.code] = curr;
-    return acc;
-  }, {} as MaterialState["materialMap"]);
+  const materialMap = materialList.reduce(
+    (acc, curr) => {
+      acc[curr.code] = curr;
+      return acc;
+    },
+    {} as MaterialState["materialMap"],
+  );
   return {
     materialList,
     materialMap,
