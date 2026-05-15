@@ -85,7 +85,8 @@ export default function DraggerUpload(props: {
       isFirstRender.current = false;
       return;
     }
-    onChange?.(fileList);
+    const successFiles = fileList.filter((file) => file.status === "done");
+    onChange?.(successFiles);
   }, [fileList]);
 
   return (
